@@ -17,4 +17,5 @@ courseString = getSubstring(html, courseIndex+3, courseEnd)
 
 courseNumIndex = courseString.find(" ", 0, len(courseString))
 courseNumber = getSubstring(courseString, courseNumIndex+1, courseNumIndex+4)
-print(courseNumber)
+courseSection = getSubstring(courseString, courseNumIndex+5, courseNumIndex+7)
+print(courseSection)
