@@ -25,19 +25,46 @@ Loop through entire string running find setting the index of that find and loop 
 lastIndex = 0
 courseNumber = []
 courseSection = []
-courseIndex = 0;
+courseDays = []
+courseTimes = []
+courseIndex = 0
 
+#Find all courses in a certain department and store their data to their specified arrays
 while(courseIndex != -1):
     courseIndex = html.find('k">' + department, lastIndex, len(html))
     if(courseIndex != -1):
         courseEnd = html.find("\n", courseIndex, len(html))
         lastIndex = courseEnd;
         courseString = getSubstring(html, courseIndex+3, courseEnd)
-    
-
         courseNumIndex = courseString.find(" ", 0, len(courseString))
-        courseNumber = getSubstring(courseString, courseNumIndex+1, courseNumIndex+4)
-        courseSection = getSubstring(courseString, courseNumIndex+5, courseNumIndex+7)
-        courseDays = getSubstring(courseString, 58, courseString.find(" ", 58, len(courseString)))
-        courseTimes = getSubstring(courseString, 65, courseString.find(" ", 65, len(courseString)))
-        print(courseDays)
+        
+
+        courseNumber.append(getSubstring(courseString, courseNumIndex+1, courseNumIndex+4))
+        courseSection.append(getSubstring(courseString, courseNumIndex+5, courseNumIndex+7))
+        courseDays.append(getSubstring(courseString, 58, courseString.find(" ", 58, len(courseString))))
+        courseTimes.append(getSubstring(courseString, 65, courseString.find(" ", 65, len(courseString))))
+
+monday = []
+tuesday = []
+wednesday = []
+thursday = []
+friday = []
+
+#Organize Classes By Day
+for i in range(0, len(courseDays)):
+    for j in range(0, len(courseDays[i])):
+        if(courseDays[i][j] == "M"):
+            monday.append(i)
+        elif(courseDays[i][j] == "W"):
+            wednesday.append(i)
+        elif(courseDays[i][j] == "F"):
+            friday.append(i)
+        elif(courseDays[i][j] == "T"):
+            if(j+1 > len(courseDays[i])):
+                tuesday.append(i)
+            elif(courseDays[i][j+1] == "T"):
+                tuesday.append(i)
+            elif(courseDays[i][j+1] == "H"):
+                thursday.append(i);
+
+
