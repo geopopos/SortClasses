@@ -1,4 +1,5 @@
 import requests
+import bubbleSort
 
 year = "17"
 semester = "SP"
@@ -23,15 +24,19 @@ html = page.content
 Loop through entire string running find setting the index of that find and loop through again
 """
 lastIndex = 0
+courseDepartment = []
 courseNumber = []
 courseSection = []
 courseDays = []
 courseTimes = []
+courseTimesValue = []
 courseIndex = 0
+a = 0;
 
 #Find all courses in a certain department and store their data to their specified arrays
 while(courseIndex != -1):
     courseIndex = html.find('k">' + department, lastIndex, len(html))
+    courseDepartment.append(department);
     if(courseIndex != -1):
         courseEnd = html.find("\n", courseIndex, len(html))
         lastIndex = courseEnd;
@@ -43,6 +48,11 @@ while(courseIndex != -1):
         courseSection.append(getSubstring(courseString, courseNumIndex+5, courseNumIndex+7))
         courseDays.append(getSubstring(courseString, 58, courseString.find(" ", 58, len(courseString))))
         courseTimes.append(getSubstring(courseString, 65, courseString.find(" ", 65, len(courseString))))
+        if(courseTimes[a][5] == "A"):
+            courseTimesValue.append(int(courseTimes[a][0] + courseTimes[a][1]))
+        elif(courseTimes[a][5] == "P"):
+            courseTimesValue.append(12+int(courseTimes[a][0] + courseTimes[a][1])%12)
+        a+=1;
 
 monday = []
 tuesday = []
@@ -67,4 +77,18 @@ for i in range(0, len(courseDays)):
             elif(courseDays[i][j+1] == "H"):
                 thursday.append(i);
 
+dayLabel = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+day = [monday, tuesday, wednesday, thursday, friday]
 
+#Sort Classes By Time
+bubbleSort.bubbleSort(day, courseTimesValue);
+
+
+#Print Classes
+for i in range(0, len(day)):
+    print (dayLabel[i])
+    print("_________________________")
+    for j in range(0, len(day[i])):
+        index = day[i][j]
+        print(courseDepartment[index] + " " + str(courseNumber[index]) + " " + str(courseSection[index]) + " " + courseDays[index] + "     " + courseTimes[index])
+    print("\n")
