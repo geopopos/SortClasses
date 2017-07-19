@@ -25,14 +25,19 @@ Loop through entire string running find setting the index of that find and loop 
 lastIndex = 0
 courseNumber = []
 courseSection = []
+courseIndex = 0;
 
-courseIndex = html.find('k">' + department, lastIndex, len(html))
-courseEnd = html.find("\n", courseIndex, len(html))
-courseString = getSubstring(html, courseIndex+3, courseEnd)
+while(courseIndex != -1):
+    courseIndex = html.find('k">' + department, lastIndex, len(html))
+    if(courseIndex != -1):
+        courseEnd = html.find("\n", courseIndex, len(html))
+        lastIndex = courseEnd;
+        courseString = getSubstring(html, courseIndex+3, courseEnd)
     
 
-courseNumIndex = courseString.find(" ", 0, len(courseString))
-courseNumber = getSubstring(courseString, courseNumIndex+1, courseNumIndex+4)
-courseSection = getSubstring(courseString, courseNumIndex+5, courseNumIndex+7)
-
-print(courseNumber)
+        courseNumIndex = courseString.find(" ", 0, len(courseString))
+        courseNumber = getSubstring(courseString, courseNumIndex+1, courseNumIndex+4)
+        courseSection = getSubstring(courseString, courseNumIndex+5, courseNumIndex+7)
+        courseDays = getSubstring(courseString, 58, courseString.find(" ", 58, len(courseString)))
+        courseTimes = getSubstring(courseString, 65, courseString.find(" ", 65, len(courseString)))
+        print(courseDays)
